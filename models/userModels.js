@@ -25,7 +25,11 @@ const userSchema = mongoose.Schema({
         type : String,
         required : true
         
-    }
+    },
+// for reset password
+    resetPasswordToken : String,
+    resetPasswordExpire : Date,
+
 },{
         timestamps : true
     })
@@ -40,5 +44,10 @@ const userSchema = mongoose.Schema({
         this.password = await bcrypt.hash(this.password, salt)
     })
     
+    // middleware to compare entered password with encrypted password
+
+    userSchema.methods.matchPassword = async function(enteredPassword){
+        return await bcrypt.compare(enteredPassword, this.password)
+    }
 
     module.exports = mongoose.model("User",userSchema)

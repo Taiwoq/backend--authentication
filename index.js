@@ -9,7 +9,10 @@ connectDb()
 
 const userRoute = require("./routes/userRoute")
 
+// this allows to use json format
 app.use(express.json())
+// to use url encoded values instead of json
+app.use(express.urlencoded({extended : true}))
 
 
 app.get("/api", (request,response) => {
